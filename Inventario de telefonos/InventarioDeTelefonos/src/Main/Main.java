@@ -1,24 +1,24 @@
 package Main;
 
+import MVC.Controller.Inventory.InventoryController;
 import MVC.Controller.Inventory.MenuController;
 import MVC.Controller.Inventory.RegisterDeviceController;
-import MVC.Model.Data.Brands;
 import MVC.Model.DeviceInventory.DeviceInventory;
-import MVC.Model.Inventory.Entitys.IPhone;
-import MVC.Model.Inventory.Entitys.Samsung;
+import MVC.Model.Inventory.Entitys.Device;
+import MVC.Model.Inventory.Factory.DeviceFactory;
 import MVC.View.Inventory.Menu;
 import MVC.View.Inventory.RegistrationInventory;
 import MVC.View.Inventory.ShowInventory;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
         Menu menuView = new Menu();
         RegistrationInventory registratitionView = new RegistrationInventory();
         ShowInventory showInventory = new ShowInventory();
-        RegisterDeviceController registerDeviceController = new RegisterDeviceController(registratitionView);
+        DeviceFactory deviceFactory = new DeviceFactory();
+        DeviceInventory deviceInventory = new DeviceInventory();
+        InventoryController inventoryController = new InventoryController(showInventory, deviceInventory);
+        RegisterDeviceController registerDeviceController = new RegisterDeviceController(registratitionView, deviceFactory, showInventory, inventoryController, deviceInventory);
         MenuController menuController = new MenuController(menuView, registratitionView, registerDeviceController, showInventory);
 
         menuController.displayMenu();

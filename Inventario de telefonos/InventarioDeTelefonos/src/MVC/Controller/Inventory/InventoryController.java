@@ -8,44 +8,51 @@ import MVC.View.Inventory.Menu;
 import MVC.View.Inventory.RegistrationInventory;
 import MVC.View.Inventory.ShowInventory;
 
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class InventoryController implements ActionListener {
-    private Menu menu;
-    private RegistrationInventory registrationInventory;
     private ShowInventory showInventory;
-    private Device device;
-    private DeviceFactory deviceFactory;
     private DeviceInventory deviceInventory;
-    private Brands deviceBrands;
 
-    public InventoryController(Menu menu, RegistrationInventory registrationInventory, ShowInventory showInventory, Device device, DeviceFactory deviceFactory, DeviceInventory deviceInventory, Brands deviceBrands) {
-        this.menu = menu;
-        this.registrationInventory = registrationInventory;
+    public InventoryController(ShowInventory showInventory, DeviceInventory deviceInventory) {
         this.showInventory = showInventory;
-        this.device = device;
-        this.deviceFactory = deviceFactory;
         this.deviceInventory = deviceInventory;
-        this.deviceBrands = deviceBrands;
     }
 
-    public void initialize(){
+    public void updateInventoryTable(){
+        // Obtener el modelo de tabla desde la interfaz gráfica (ShowInventory)
+        DefaultTableModel tableModel = showInventory.getInventoryTableModel();
+        // Limpiar la tabla
+        tableModel.setRowCount(0);
+        // Obtener la lista de dispositivos del inventario
+        List<Device> allDevices = deviceInventory.returnInventoryAsList();
+
+        // Obtener la lista de dispositivos del inventario
+        for (Device device : allDevices) {
+
+            // Crear una fila con la información del dispositivo
+            Object[] rowData = {
+                    device.getDeviceBrand(),
+                    device.getDeviceModel(),
+                    device.getDeviceStorage(),
+                    device.getDeviceRegistrationDate()
+            };
+            // Agregar la fila al modelo de la tabla
+            showInventory.getInventoryTableModel().addRow(rowData);
+//            showInventory.getInventoryTable().repaint();
+        }
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == this.menu.getShowInventoryBtn()){
-            showInventory.getInventoryFrame().setVisible(true);
-
-            /*// Agregar dispositivos al modelo de tabla (actualizar la tabla)
-            for (Device device : inventory.returnInventoryAsList()) {
-                inventoryView.addDeviceToTable(device);
-            }
-            inventoryFrame.pack();
-            inventoryFrame.setLocationRelativeTo(null); // Centrar la ventana en la pantalla*/
-
-
-        }
+    /*private void addDeviceToTable(Device device) {
+        // Formateador de fecha y hora
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        */
     }
 }

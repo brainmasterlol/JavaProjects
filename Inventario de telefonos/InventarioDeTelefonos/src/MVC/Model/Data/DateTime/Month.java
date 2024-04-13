@@ -1,18 +1,18 @@
 package MVC.Model.Data.DateTime;
 
 public enum Month {
-    JANUARY("January"),
-    FEBRUARY("February"),
-    MARCH("March"),
-    APRIL("April"),
-    MAY("May"),
-    JUNE("June"),
-    JULY("July"),
-    AUGUST("August"),
-    SEPTEMBER("September"),
-    OCTOBER("October"),
-    NOVEMBER("November"),
-    DECEMBER("December");
+    JANUARY("01"),
+    FEBRUARY("02"),
+    MARCH("03"),
+    APRIL("04"),
+    MAY("05"),
+    JUNE("06"),
+    JULY("07"),
+    AUGUST("08"),
+    SEPTEMBER("09"),
+    OCTOBER("10"),
+    NOVEMBER("11"),
+    DECEMBER("12");
 
 
     private final String displayName;

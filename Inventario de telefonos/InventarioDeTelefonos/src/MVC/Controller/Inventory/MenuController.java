@@ -1,13 +1,8 @@
 package MVC.Controller.Inventory;
 
-import MVC.Model.Data.Brands;
-import MVC.Model.DeviceInventory.DeviceInventory;
-import MVC.Model.Inventory.Entitys.Device;
-import MVC.Model.Inventory.Factory.DeviceFactory;
 import MVC.View.Inventory.Menu;
 import MVC.View.Inventory.RegistrationInventory;
 import MVC.View.Inventory.ShowInventory;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,10 +11,6 @@ public class MenuController implements ActionListener {
     private RegistrationInventory registrationInventory;
     private RegisterDeviceController registerDeviceController;
     private ShowInventory showInventory;
-    private Device device;
-    private DeviceFactory deviceFactory;
-    private DeviceInventory deviceInventory;
-    private Brands deviceBrands;
 
     public MenuController(Menu menu, RegistrationInventory registrationInventory, RegisterDeviceController registerDeviceController, ShowInventory showInventory) {
         this.menu = menu;
@@ -42,9 +33,7 @@ public class MenuController implements ActionListener {
     }
 
     private void displayInventory() {
-        // Lógica para mostrar el inventario
-        // Por ejemplo:
-        // new InventoryController().showInventory();
+        this.showInventory.getInventoryFrame().setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {

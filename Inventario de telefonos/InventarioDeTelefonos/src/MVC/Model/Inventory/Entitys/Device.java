@@ -1,20 +1,18 @@
 package MVC.Model.Inventory.Entitys;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public abstract class Device {
     private String deviceBrand;
     private String deviceModel;
-    private Integer deviceStorage;
-    private String deviceRegistrationDate;
+    private String deviceStorage;
+    private LocalDateTime deviceRegistrationDate;
 
-    public Device(String deviceBrand, String deviceModel, Integer deviceStorage) {
+    public Device(String deviceBrand, String deviceModel, String deviceStorage, LocalDateTime deviceRegistrationDate) {
         this.deviceBrand = deviceBrand;
         this.deviceModel = deviceModel;
         this.deviceStorage = deviceStorage;
-        this.deviceRegistrationDate = formatRegistrationDate(LocalDateTime.now());
+        this.deviceRegistrationDate = deviceRegistrationDate;
     }
 
     public String getDeviceBrand() {
@@ -33,25 +31,20 @@ public abstract class Device {
         this.deviceModel = deviceModel;
     }
 
-    public Integer getDeviceStorage() {
+    public String getDeviceStorage() {
         return deviceStorage;
     }
 
-    public void setDeviceStorage(Integer deviceStorage) {
+    public void setDeviceStorage(String deviceStorage) {
         this.deviceStorage = deviceStorage;
     }
 
-    public String getDeviceRegistrationDate() {
+    public LocalDateTime getDeviceRegistrationDate() {
         return deviceRegistrationDate;
     }
 
-    public void setDeviceRegistrationDate(String deviceRegistrationDate) {
+    public void setDeviceRegistrationDate(LocalDateTime deviceRegistrationDate) {
         this.deviceRegistrationDate = deviceRegistrationDate;
-    }
-
-    private String formatRegistrationDate(LocalDateTime dateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return dateTime.format(formatter);
     }
 
     public void showInformation(){

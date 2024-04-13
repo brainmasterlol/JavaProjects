@@ -7,30 +7,79 @@ import MVC.Model.Data.DateTime.Year;
 import MVC.Model.Data.IPhone.IPhoneModels;
 import MVC.Model.Data.Samsung.SamsungModels;
 import MVC.Model.Data.Storage;
+import MVC.Model.DeviceInventory.DeviceInventory;
+import MVC.Model.Inventory.Entitys.Device;
+import MVC.Model.Inventory.Factory.DeviceFactory;
 import MVC.View.Inventory.RegistrationInventory;
+import MVC.View.Inventory.ShowInventory;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
 public class RegisterDeviceController {
     private RegistrationInventory registrationInventory;
+    private DeviceFactory deviceFactory;
+    private ShowInventory showInventory;
+    private InventoryController inventoryController;
+    private DeviceInventory deviceInventory;
 
-    public RegisterDeviceController(RegistrationInventory registrationInventory) {
+    public RegisterDeviceController(RegistrationInventory registrationInventory, DeviceFactory deviceFactory, ShowInventory showInventory, InventoryController inventoryController, DeviceInventory deviceInventory) {
         this.registrationInventory = registrationInventory;
         this.registrationInventory.getRegisterBtn().addActionListener(e -> registerDevice());
         this.registrationInventory.getShowInventoryBtn().addActionListener(e -> showInventory());
+        this.deviceFactory = deviceFactory;
+        this.showInventory = showInventory;
+        this.inventoryController = inventoryController;
+        this.deviceInventory = deviceInventory;
     }
 
     private void registerDevice() {
-        // Lógica para mostrar el inventario
-        // Por ejemplo:
-        // new InventoryController().showInventory();
+        try{
+            getDataFromRegistrationForm();
+            inventoryController.updateInventoryTable();
+            System.out.println("Device registered correctly!");
+        } catch (Exception e){
+            System.err.println("An error ocurred");
+        }
     }
 
+    private void getDataFromRegistrationForm(){
+        String brandValue = (String) this.registrationInventory.getBrandCmb().getSelectedItem();
+        String modelValue = (String) this.registrationInventory.getModelCmb().getSelectedItem();
+        String storageValue = (String) this.registrationInventory.getStorageCmb().getSelectedItem();
+
+        String dayValue = (String) this.registrationInventory.getDayCmb().getSelectedItem();
+        String monthValue = (String) this.registrationInventory.getMonthCmb().getSelectedItem();
+        String yearValue = (String) this.registrationInventory.getYearCmb().getSelectedItem();
+        LocalDateTime dateTimeValue = convertToDateTime(dayValue, monthValue, yearValue);
+
+        createDeviceController(brandValue, modelValue, storageValue, dateTimeValue);
+    }
+
+    private LocalDateTime convertToDateTime(String dayValue, String monthValue, String yearValue){
+        int dayToInt = Integer.parseInt(dayValue);
+        int monthToInt = Integer.parseInt(monthValue);
+        int yearToInt = Integer.parseInt(yearValue);
+
+        LocalDateTime dateTime = LocalDateTime.of(yearToInt, monthToInt, dayToInt, LocalDateTime.now().getHour(), LocalDateTime.now().getMinute());
+        return dateTime;
+    }
+
+    private void createDeviceController(String brandValue, String modelValue, String storageValue, LocalDateTime dateTimeValue){
+        Device device = deviceFactory.createDevice(brandValue, modelValue, storageValue, dateTimeValue);
+        System.out.println("Dispositivo registrado: " + device.getDeviceBrand());
+        deviceInventory.addDeviceToInventory(device);
+    }
+
+    /*private String formatRegistrationDate(LocalDateTime dateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return dateTime.format(formatter);
+    }*/
+
     private void showInventory() {
-        // Lógica para mostrar el inventario
-        // Por ejemplo:
-        // new InventoryController().showInventory();
+        this.showInventory.getInventoryFrame().setVisible(true);
     }
 
     public void handleBrandSelection() {
